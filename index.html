@@ -1,1 +1,717 @@
-hello.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A website about not knowing what to put on a website." />
+  <title>nothing to see here.</title>
+
+  <style>
+    :root {
+      --bg: #f3f0e8;
+      --panel: rgba(255,255,255,.58);
+      --text: #171717;
+      --muted: #706c64;
+      --line: rgba(23,23,23,.14);
+      --shadow: 0 12px 35px rgba(0,0,0,.05);
+    }
+
+    body.dark {
+      --bg: #111;
+      --panel: rgba(255,255,255,.045);
+      --text: #f4f1ea;
+      --muted: #aaa59c;
+      --line: rgba(255,255,255,.14);
+      --shadow: 0 12px 35px rgba(0,0,0,.22);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+	  
+	  display: flex;
+	  align-items: center;
+	  
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      transition: .25s ease;
+    }
+
+    .wrap {
+      width: min(980px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 30px 0 42px;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 34px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--panel);
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #59b85c;
+    }
+
+    #statusText {
+      transition: opacity .18s ease;
+    }
+
+    #statusText.fade {
+      opacity: .28;
+    }
+
+    button { font: inherit; }
+
+    .text-button {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 4px 0;
+    }
+
+    .hero {
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(44px, 6vw, 86px);
+      line-height: .92;
+      letter-spacing: -.065em;
+    }
+
+    .lede {
+      max-width: 590px;
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.45;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 22px;
+    }
+
+    .btn {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 9px 12px;
+      background: var(--panel);
+      color: var(--text);
+      cursor: pointer;
+      transition: .15s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      border-color: var(--text);
+    }
+
+    .btn.primary {
+      background: var(--text);
+      color: var(--bg);
+      border-color: var(--text);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 12px;
+    }
+
+    .card {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .wide { grid-column: 1 / -1; }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .status-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .big {
+      font-size: 34px;
+      font-weight: 750;
+      letter-spacing: -.05em;
+    }
+
+    .small {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .progress {
+      height: 8px;
+      margin-top: 10px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(127,127,127,.18);
+    }
+
+    .bar {
+      width: 73%;
+      height: 100%;
+      background: var(--text);
+      border-radius: inherit;
+      transition: width .35s ease;
+    }
+
+    .thought {
+      font-size: 20px;
+      line-height: 1.35;
+      letter-spacing: -.015em;
+    }
+
+    .mini-stats {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .mini {
+      padding: 9px 10px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .mini strong {
+      display: block;
+      color: var(--text);
+      font-size: 20px;
+      margin-bottom: 2px;
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 12px;
+      padding: 0 2px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    #toast {
+      position: fixed;
+      left: 50%;
+      bottom: 16px;
+      transform: translate(-50%, 12px);
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: var(--text);
+      color: var(--bg);
+      font-size: 12px;
+      opacity: 0;
+      pointer-events: none;
+      transition: .2s ease;
+      max-width: calc(100vw - 28px);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    #toast.show {
+      opacity: 1;
+      transform: translate(-50%,0);
+    }
+
+    .secret {
+      position: fixed;
+      right: 12px;
+      bottom: 12px;
+      width: 7px;
+      height: 7px;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      background: currentColor;
+      opacity: .12;
+      cursor: help;
+    }
+
+    .shake { animation: shake .28s ease; }
+
+    @keyframes shake {
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+
+    body.worse-1 { font-family: "Comic Sans MS", cursive; }
+    body.worse-2 .card:nth-child(odd) { transform: rotate(-.4deg); }
+    body.worse-2 .card:nth-child(even) { transform: rotate(.4deg); }
+    body.worse-3 h1 { text-shadow: 3px 3px 0 rgba(255,0,170,.22); }
+    body.worse-4 * { cursor: crosshair !important; }
+    body.worse-5 .btn { border-radius: 3px; box-shadow: 4px 4px 0 rgba(127,127,127,.18); }
+    body.maximum-chaos { animation: chaos 4s linear infinite; }
+
+    @keyframes chaos {
+      to { filter: hue-rotate(360deg); }
+    }
+
+
+    .instruction-overlay {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) scale(.96);
+      padding: 10px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--panel);
+      color: var(--text);
+      font-size: 12px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .16s ease, transform .16s ease;
+      z-index: 1000;
+      white-space: nowrap;
+    }
+
+    .instruction-overlay.show {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .vanish-overlay {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 18px;
+      letter-spacing: -.02em;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .15s ease;
+      z-index: 999;
+    }
+
+    .vanish-overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    body.vanished #page,
+    body.vanished .secret {
+      opacity: 0;
+    }
+
+    #page,
+    .secret {
+      transition: opacity .15s ease;
+    }
+
+    @media (max-width: 620px) {
+	  body {
+	    align-items: flex-start;
+	  }
+      .wrap { padding-top: 14px; }
+      nav { margin-bottom: 18px; }
+      h1 { font-size: clamp(42px, 15vw, 64px); }
+      .lede { font-size: 15px; }
+      .grid { grid-template-columns: 1fr; }
+      .wide { grid-column: auto; }
+      .mini-stats { grid-template-columns: repeat(2,1fr); }
+      footer { flex-direction: column; }
+    }
+  </style>
+</head>
+
+<body class="dark">
+  <main class="wrap" id="page">
+    <nav>
+      <span class="badge"><span class="dot"></span><span id="statusText">website technically online</span></span>
+      <button class="text-button" id="themeToggle">turn off the lights</button>
+    </nav>
+
+    <section class="hero">
+      <h1>nothing to see here.</h1>
+      <p class="lede">
+        I bought this domain before I figured out what to put on it.
+        So this is a website about having a website.
+      </p>
+
+      <div class="actions">
+        <button class="btn primary" id="dontClick">do not click</button>
+        <button class="btn" id="randomThought">random thought</button>
+        <button class="btn" id="makeWorse">make it worse</button>
+      </div>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <p class="eyebrow">current status</p>
+        <div class="status-row">
+          <span class="big" id="percent">73%</span>
+          <span class="small">completely fictional</span>
+        </div>
+        <div class="progress"><div class="bar" id="progressBar"></div></div>
+      </article>
+
+      <article class="card">
+        <p class="eyebrow">bad decisions</p>
+        <div class="status-row">
+          <span class="big" id="clickCount">0</span>
+          <span class="small">times you ignored me</span>
+        </div>
+      </article>
+
+      <article class="card wide">
+        <p class="eyebrow">a thought, apparently</p>
+        <div class="thought" id="thought">
+          You've now spent more time on this website than its creator expected.
+        </div>
+      </article>
+
+      <article class="card wide">
+        <p class="eyebrow">important statistics</p>
+        <div class="mini-stats">
+          <div class="mini"><strong>0</strong>products sold</div>
+          <div class="mini"><strong>0</strong>awards won</div>
+          <div class="mini"><strong>0</strong>useful things</div>
+          <div class="mini"><strong>1</strong>domain renewal</div>
+        </div>
+      </article>
+    </section>
+
+    <footer>
+      <span id="footerMessage">Last updated whenever I remembered this exists.</span>
+      <span id="clock">00:00:00 — still no content</span>
+    </footer>
+  </main>
+
+  <button class="secret" id="secret" aria-label="Secret"></button>
+  <div class="instruction-overlay" id="instructionOverlay">there are no instructions.</div>
+  <div class="vanish-overlay" id="vanishOverlay">sorry.</div>
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const thoughts = [
+      "You've now spent more time on this website than its creator expected.",
+      "This page has no cookies. It barely has a purpose.",
+      "Every serious website is one bad CSS decision away from becoming hilarious.",
+      "You could have opened another tab. Instead, you're still here.",
+      "Technically, refreshing this page counts as returning traffic.",
+      "Somewhere, a meeting is happening that could have been a single HTML file.",
+      "Nothing is loading. There is simply nothing to load.",
+      "This thought was selected by Math.random(), which feels appropriate."
+    ];
+
+    const statusMessages = [
+      "website technically online",
+      "probably working",
+      "still unnecessary",
+      "server has accepted its fate",
+      "no incidents worth reporting",
+      "content remains unavailable",
+      "operating within expectations"
+    ];
+
+    const footerMessages = [
+      "Last updated whenever I remembered this exists.",
+      "No roadmap. No newsletter. No problem.",
+      "Built with HTML, CSS, JavaScript, and questionable priorities.",
+      "No AI chatbot was harmed in the making of this website.",
+      "© probably this year.",
+      "Still no terms of service. You're welcome.",
+      "Maintained with inconsistent enthusiasm."
+    ];
+
+    const uncommonFooter = "You got the uncommon footer. Nice.";
+
+    const body = document.body;
+    const page = document.getElementById("page");
+    const toast = document.getElementById("toast");
+    const thought = document.getElementById("thought");
+    const progressBar = document.getElementById("progressBar");
+    const percent = document.getElementById("percent");
+    const clickCount = document.getElementById("clickCount");
+    const themeToggle = document.getElementById("themeToggle");
+    const statusText = document.getElementById("statusText");
+    const footerMessage = document.getElementById("footerMessage");
+    const clock = document.getElementById("clock");
+    const instructionOverlay = document.getElementById("instructionOverlay");
+    const vanishOverlay = document.getElementById("vanishOverlay");
+    const makeWorseButton = document.getElementById("makeWorse");
+
+    let clicks = Number(localStorage.getItem("badDecisionCount") || 0);
+    let worseLevel = 0;
+    let idleTimer;
+    let idleTriggered = false;
+    let vanishRunning = false;
+    let instructionTimer;
+
+    clickCount.textContent = clicks;
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+      clearTimeout(window.toastTimer);
+      window.toastTimer = setTimeout(() => toast.classList.remove("show"), 1800);
+    }
+
+    function randomThought() {
+      let next = thoughts[Math.floor(Math.random() * thoughts.length)];
+
+      if (next === thought.textContent.trim()) {
+        next = thoughts[(thoughts.indexOf(next) + 1) % thoughts.length];
+      }
+
+      thought.textContent = next;
+
+      const fake = 48 + Math.floor(Math.random() * 47);
+      progressBar.style.width = fake + "%";
+      percent.textContent = fake + "%";
+    }
+
+    function updateClock() {
+      const now = new Date();
+      const h = String(now.getHours()).padStart(2, "0");
+      const m = String(now.getMinutes()).padStart(2, "0");
+      const s = String(now.getSeconds()).padStart(2, "0");
+      clock.textContent = `${h}:${m}:${s} — still no content`;
+    }
+
+    function cycleFooter() {
+      if (Math.floor(Math.random() * 25) === 0) {
+        footerMessage.textContent = uncommonFooter;
+        return;
+      }
+
+      const current = footerMessage.textContent;
+      let next = footerMessages[Math.floor(Math.random() * footerMessages.length)];
+
+      if (next === current) {
+        next = footerMessages[(footerMessages.indexOf(next) + 1) % footerMessages.length];
+      }
+
+      footerMessage.textContent = next;
+    }
+
+    function rareVanishEvent() {
+      if (vanishRunning || Math.floor(Math.random() * 30) !== 0) return;
+
+      vanishRunning = true;
+      body.classList.add("vanished");
+
+      setTimeout(() => {
+        vanishOverlay.classList.add("show");
+      }, 180);
+
+      setTimeout(() => {
+        body.classList.remove("vanished");
+        vanishOverlay.classList.remove("show");
+
+        setTimeout(() => {
+          vanishRunning = false;
+        }, 250);
+      }, 2000);
+    }
+
+    function cycleStatus() {
+      const current = statusText.textContent;
+      let next = statusMessages[Math.floor(Math.random() * statusMessages.length)];
+
+      if (next === current) {
+        next = statusMessages[(statusMessages.indexOf(next) + 1) % statusMessages.length];
+      }
+
+      statusText.classList.add("fade");
+
+      setTimeout(() => {
+        statusText.textContent = next;
+        statusText.classList.remove("fade");
+      }, 180);
+    }
+
+    function showInstructions() {
+      instructionOverlay.classList.add("show");
+      clearTimeout(instructionTimer);
+
+      instructionTimer = setTimeout(() => {
+        instructionOverlay.classList.remove("show");
+      }, 2200);
+    }
+
+    function resetIdleTimer() {
+      clearTimeout(idleTimer);
+
+      if (!idleTriggered) {
+        idleTimer = setTimeout(() => {
+          thought.textContent = "You're still here? I really didn't plan for this.";
+          idleTriggered = true;
+        }, 25000);
+      }
+    }
+
+    function resetWorse() {
+      ["worse-1", "worse-2", "worse-3", "worse-4", "worse-5", "maximum-chaos"]
+        .forEach(className => body.classList.remove(className));
+
+      worseLevel = 0;
+      makeWorseButton.textContent = "make it worse";
+      showToast("Fine. I made it better.");
+    }
+
+    document.getElementById("dontClick").onclick = () => {
+      clicks++;
+      localStorage.setItem("badDecisionCount", clicks);
+      clickCount.textContent = clicks;
+
+      page.classList.remove("shake");
+      void page.offsetWidth;
+      page.classList.add("shake");
+
+      const messages = [
+        "I specifically asked you not to.",
+        "Interesting decision.",
+        "We are building a pattern here.",
+        "This is now statistically significant.",
+        "Please stop improving the engagement metrics."
+      ];
+
+      showToast(messages[Math.min(clicks - 1, messages.length - 1)]);
+    };
+
+    document.getElementById("randomThought").onclick = randomThought;
+
+    themeToggle.onclick = () => {
+      body.classList.toggle("dark");
+      const dark = body.classList.contains("dark");
+      themeToggle.textContent = dark ? "turn on the lights" : "turn off the lights";
+      localStorage.setItem("theme", dark ? "dark" : "light");
+    };
+
+    if (localStorage.getItem("theme") !== "light") {
+      body.classList.add("dark");
+      themeToggle.textContent = "turn on the lights";
+    } else {
+      body.classList.remove("dark");
+      themeToggle.textContent = "turn off the lights";
+    }
+
+    makeWorseButton.onclick = () => {
+      if (worseLevel >= 6) {
+        resetWorse();
+        return;
+      }
+
+      worseLevel++;
+
+      if (worseLevel <= 5) body.classList.add("worse-" + worseLevel);
+      if (worseLevel >= 6) {
+        body.classList.add("maximum-chaos");
+        makeWorseButton.textContent = "I regret this";
+      }
+
+      const messages = [
+        "Comic Sans. Obviously.",
+        "Slightly crooked. Much worse.",
+        "Tasteful terrible text shadow.",
+        "Professional cursor removed.",
+        "Buttons redesigned by committee.",
+        "Maximum bad decisions."
+      ];
+
+      showToast(messages[Math.min(worseLevel - 1, messages.length - 1)]);
+    };
+
+    let secretClicks = 0;
+    document.getElementById("secret").onclick = () => {
+      secretClicks++;
+      if (secretClicks < 3) {
+        showToast("That was definitely nothing.");
+      } else {
+        thought.textContent = "You found the secret. Your reward is knowing there was a secret.";
+        showToast("Achievement unlocked.");
+      }
+    };
+
+    document.addEventListener("keydown", event => {
+      if (event.key === "?") {
+        showInstructions();
+      }
+
+      if (event.key === "Escape") {
+        instructionOverlay.classList.remove("show");
+      }
+    });
+
+    document.addEventListener("visibilitychange", () => {
+      document.title = document.hidden ? "come back." : "nothing to see here.";
+    });
+
+    ["mousemove", "keydown", "click", "touchstart"].forEach(eventName => {
+      document.addEventListener(eventName, resetIdleTimer, { passive: true });
+    });
+
+    document.addEventListener("click", rareVanishEvent);
+
+    const hasVisitedBefore = localStorage.getItem("nothingSiteVisited") === "yes";
+    localStorage.setItem("nothingSiteVisited", "yes");
+
+    if (hasVisitedBefore) {
+      setTimeout(() => {
+        showToast("Oh. You came back.");
+      }, 900);
+    }
+
+    setInterval(updateClock, 1000);
+    setInterval(cycleStatus, 11000);
+    setInterval(cycleFooter, 14000);
+
+    updateClock();
+    resetIdleTimer();
+
+    console.log("%cYou found the console.", "font-size:18px;font-weight:bold;");
+    console.log("There is nothing useful here either.");
+  </script>
+</body>
+</html>
