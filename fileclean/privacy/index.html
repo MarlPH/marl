@@ -183,13 +183,13 @@
       <p class="lede">
         file clean is designed to scan and clean privacy-sensitive photo metadata locally on your device. It does not require an account, cloud service, advertising, analytics, or tracking.
       </p>
-      <p class="meta">Last updated: August 26, 2026</p>
+      <p class="meta">Last updated: August 29, 2026</p>
     </header>
 
     <div class="summary">
       <strong>The short version</strong>
       <p>
-        file clean does not collect, upload, sell, or share your photos, photo metadata, or personal information. Photos you choose are processed locally, and you decide whether to save or share a cleaned copy.
+        file clean does not collect, upload, sell, or automatically send your photos, photo metadata, or personal information to the developer or third parties. Photos you choose are processed locally. A photo leaves file clean only when you explicitly choose to share it, and you choose the destination.
       </p>
     </div>
 
@@ -209,11 +209,11 @@
       <h2>3. Cleaned copies</h2>
       <p>file clean preserves your original photo and creates a separate cleaned copy when cleaning is requested.</p>
       <ul>
-        <li>Temporary cleaned copies may be stored in the app's local cache while you use the app.</li>
+        <li>Temporary cleaned and share-ready working copies may be stored in the app's app-private cache while you use the app.</li>
         <li>If you choose <strong>Save to device</strong>, the verified cleaned copy is saved to <code>Pictures/file clean/</code> on supported Android devices.</li>
-        <li>If you choose <strong>Share</strong>, Android's system sharing interface is used and you choose the destination.</li>
+        <li>If you choose <strong>Share</strong>, file clean creates and verifies an app-private share snapshot, then grants temporary read access to the recipient app through Android FileProvider. Android's system sharing interface lets you choose the destination.</li>
       </ul>
-      <p>Saved or shared files remain under your control and are subject to the privacy practices of any destination or service you choose.</p>
+      <p>After you share a photo, the recipient app or service controls how that shared copy is handled. Saved photos remain on your device until you delete them.</p>
     </section>
 
     <section>
@@ -229,7 +229,7 @@
 
     <section>
       <h2>6. Data retention and deletion</h2>
-      <p>file clean does not retain user data on external servers. Temporary app files may remain in local app storage until they are removed by the app, the operating system, or when the app's storage is cleared or the app is uninstalled.</p>
+      <p>file clean does not retain user data on external servers. Temporary app-private working files may remain in local app cache until they are removed by file clean, the operating system, when the app's storage is cleared, or when the app is uninstalled.</p>
       <p>Cleaned photos that you explicitly save to your device remain there until you delete them.</p>
     </section>
 
@@ -250,7 +250,7 @@
 
     <section>
       <h2>10. Contact</h2>
-      <p>file clean is developed and maintained by marl. Privacy questions can be submitted through the developer's public GitHub profile at <a href="https://github.com/marl-exe">github.com/marl-exe</a>.</p>
+      <p>file clean is developed and maintained by marl. Privacy questions can be sent to <a href="mailto:dev@marlrivera.com">dev@marlrivera.com</a> or submitted through the developer's public GitHub profile at <a href="https://github.com/marl-exe">github.com/marl-exe</a>.</p>
     </section>
 
     <footer>
